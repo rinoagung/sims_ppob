@@ -3,20 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { formatAngka } from '../../utils/formatAngka';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSeeBalance } from '../../redux/slices/balanceSlice';
+import { fetchBannerData } from '../../redux/slices/bannerSlice';
 
 
 
 const Saldo = () => {
-
-    const [profile, setProfile] = useState(null);
-    const [balance, setBalance] = useState("0");
-    const [error, setError] = useState(null);
     const dispatch = useDispatch();
+    const profile = useSelector((state) => state.banner.profile);
+    const balance = useSelector((state) => state.banner.balance);
+    const error = useSelector((state) => state.banner.error);
 
+    useEffect(() => {
+        dispatch(fetchBannerData());
+    }, [dispatch]);
 
     const seeBalance = useSelector((state) => state.balance.seeBalance);
-
-
 
     const isValidImageUrl = (url) => {
         return /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
@@ -24,36 +25,13 @@ const Saldo = () => {
 
     const profile_image_url = profile && isValidImageUrl(profile.profile_image) ? profile.profile_image : '/logos/profile.png';
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = { Authorization: `Bearer ${token}` };
-
-                // Fetch profile
-                const profileResponse = await fetch(`${process.env.REACT_APP_API_URL}/profile`, { headers });
-                if (!profileResponse.ok) throw new Error('Profile fetch failed');
-                const profileData = await profileResponse.json();
-                setProfile(profileData.data);
-
-                // Fetch balance
-                const balanceResponse = await fetch(`${process.env.REACT_APP_API_URL}/balance`, { headers });
-                if (!balanceResponse.ok) throw new Error('Balance fetch failed');
-                const balanceData = await balanceResponse.json();
-                setBalance(balanceData.data.balance);
-
-            } catch (err) {
-                setError(err.message);
-                console.error(err);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <div className='row mb-5'>
-            {error && <div className="alert alert-danger">{error}</div>}
+            {error && <div className="alert alert-danger alert-dismissible">
+                {error}
+
+            </div>}
             <div className="col-5">
                 <img
                     src={profile_image_url}

@@ -1,14 +1,14 @@
 // src/components/Payment.js
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
 import Saldo from '../components/Saldo';
 import { formatAngka } from '../../utils/formatAngka';
+import { fetchBannerData } from '../../redux/slices/bannerSlice';
 
 const Payment = () => {
     const location = useLocation();
-    const balance = useSelector((state) => state.balance.balance);
     const dispatch = useDispatch();
 
     const { service } = location.state || {};
@@ -18,7 +18,7 @@ const Payment = () => {
         Swal.fire({
             html: `<div class='text-center'>
                     <p>Anda yakin ingin Pembayaran Sebesar</p>
-                    <h5 class='fw-bold'>Rp${formatAngka(service.service_tariff)}</h5>
+                    <h5 class='fw-bold'>Rp${formatAngka(service.service_tariff)} ?</h5>
                 </div>`,
             showCancelButton: true,
             confirmButtonText: "Ya, Lanjutkan Pembayaran",
@@ -57,9 +57,18 @@ const Payment = () => {
                     <a href='/dashboard' class='text-decoration-none text-danger fw-bold' > Kembali ke Beranda </a>
                 </div>`
                 });
-
+                dispatch(fetchBannerData());
             } else {
-                alert(data.message || 'Pembayaran failed');
+                Swal.fire({
+                    icon: "error",
+                    showConfirmButton: false,
+                    html: `<div class='text-center'>
+                    <p>Pembayaran ${service.service_name} Sebesar</p>
+                    <h5 class='fw-bold'>Rp${formatAngka(service.service_tariff)}</h5>
+                    <p>Gagal</p>
+                    <a href='/dashboard' class='text-decoration-none text-danger fw-bold' > Kembali ke Beranda </a>
+                </div>`
+                });
             }
         } catch (err) {
             alert('An error occurred. Please try again.');

@@ -38,6 +38,7 @@ const LoginForm = () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.data.token);
+                dispatch(setError(''));
                 navigate('/dashboard');
             } else {
                 dispatch(setError(data.message || 'Login failed'));
@@ -51,10 +52,13 @@ const LoginForm = () => {
         <div className='container-fluid'>
             <div className='row'>
                 <form className="col-12 p-5 col-lg-6 p-0 d-flex justify-content-center flex-column align-items-center" style={{ height: "100vh" }} onSubmit={handleSubmit}>
-                    {error && <div className="alert alert-danger w-100" role="alert">{error}</div>}
+                    {error && <div className="alert alert-danger alert-dismissible w-100" role="alert">
+                        {error}
+
+                    </div>}
                     <div>
                         <img src="/logos/logo.png" alt="Logo" width="24" height="24" className="d-inline-block align-text-top me-2" />
-                        <h6 className='d-inline-block m-0'>SIMS PPOB</h6>
+                        <h6 className='d-inline-block m-0'>SIMS PPOB - RINO AGUNG PRIYO UTOMO</h6>
                     </div>
                     <div className='my-5'>
                         <h4 className='text-center'>Masuk atau buat akun <br /> untuk memulai</h4>

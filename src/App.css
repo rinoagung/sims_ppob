@@ -17,3 +17,31 @@ input:disabled {
 .text-success {
 	color: #70bea4 !important;
 }
+
+.input[type="text"]:focus,
+.input[type="number"]:focus {
+	box-shadow: 0px 0px 25px -6px #f8d7da !important;
+	outline: 1px solid #f42619 !important;
+}
+
+/* FOCUS STYLING - Bootstrap to use in tangent with above */
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+	border-color: rgba(244, 40, 25, 0.64);
+	box-shadow: 0px 0px 25px -6px #f8d7da !important;
+	outline: 1px solid #f42619 !important;
+}

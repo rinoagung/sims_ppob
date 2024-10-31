@@ -4,7 +4,7 @@ import Saldo from '../components/Saldo';
 import Swal from 'sweetalert2';
 import { formatAngka } from '../../utils/formatAngka';
 import { useDispatch } from 'react-redux';
-
+import { fetchBannerData } from '../../redux/slices/bannerSlice';
 
 
 const TopUp = () => {
@@ -17,7 +17,7 @@ const TopUp = () => {
         Swal.fire({
             html: `<div class='text-center'>
                     <p>Anda yakin ingin Top Up Sebesar</p>
-                    <h5 class='fw-bold'>Rp${formatAngka(amount)}</h5>
+                    <h5 class='fw-bold'>Rp${formatAngka(amount)} ?</h5>
                 </div>`,
             showCancelButton: true,
             confirmButtonText: "Ya, Lanjutkan Top Up",
@@ -47,7 +47,6 @@ const TopUp = () => {
 
             const data = await response.json();
             if (response.ok) {
-
                 Swal.fire({
                     icon: "success",
                     showConfirmButton: false,
@@ -58,8 +57,18 @@ const TopUp = () => {
                     <a href='/dashboard' class='text-decoration-none text-danger fw-bold' > Kembali ke Beranda </a>
                 </div>`
                 });
+                dispatch(fetchBannerData());
             } else {
-                alert(data.message || 'Top Up failed');
+                Swal.fire({
+                    icon: "error",
+                    showConfirmButton: false,
+                    html: `<div class='text-center'>
+                    <p>Top up Sebesar</p>
+                    <h5 class='fw-bold'>Rp${formatAngka(amount)}</h5>
+                    <p>Gagal</p>
+                    <a href='/dashboard' class='text-decoration-none text-danger fw-bold' > Kembali ke Beranda </a>
+                </div>`
+                });
             }
         } catch (err) {
             alert('An error occurred. Please try again.');

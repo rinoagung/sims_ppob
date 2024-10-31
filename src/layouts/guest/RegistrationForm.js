@@ -28,11 +28,16 @@ const RegistrationForm = () => {
         dispatch(setError(null));
 
         if (formData.password !== formData.confirmPassword) {
-            dispatch(setError('Password does not match'));
+            dispatch(setError('Password tidak sama'));
             return;
         }
 
         const { email, firstName, lastName, password } = formData;
+
+        if (password.length < 8) {
+            dispatch(setError('Password harus memiliki minimal 8 karakter.'));
+            return;
+        }
 
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/registration`, {
@@ -47,6 +52,7 @@ const RegistrationForm = () => {
 
             if (response.ok) {
                 dispatch(registerUser(data));
+                dispatch(setError(''));
                 setSuccessMessage(data.message);
             } else {
                 dispatch(setError(data.message || 'Registration failed'));
@@ -60,11 +66,17 @@ const RegistrationForm = () => {
         <div className='container-fluid'>
             <div className='row'>
                 <form className="col-12 p-5 col-lg-6 p-0 d-flex justify-content-center flex-column align-items-center" style={{ height: "100vh" }} onSubmit={handleSubmit}>
-                    {successMessage && <div className="alert alert-success w-100" role="alert">{successMessage}</div>}
-                    {error && <div className="alert alert-danger w-100" role="alert">{error}</div>}
+                    {successMessage && <div className="alert alert-success alert-dismissible w-100" role="alert">
+                        {successMessage}
+
+                    </div>}
+                    {error && <div className="alert alert-danger alert-dismissible w-100" role="alert">
+                        {error}
+
+                    </div>}
                     <div>
                         <img src="/logos/logo.png" alt="Logo" width="24" height="24" className="d-inline-block align-text-top me-2" />
-                        <h6 className='d-inline-block m-0'>SIMS PPOB</h6>
+                        <h6 className='d-inline-block m-0'>SIMS PPOB - RINO AGUNG PRIYO UTOMO</h6>
                     </div>
                     <div className='my-5'>
                         <h4 className='text-center'>Lengkapi data untuk <br /> membuat akun</h4>
@@ -93,8 +105,11 @@ const RegistrationForm = () => {
 
                     <div className="input-group mb-3">
                         <span className="input-group-text" id="basic-addon1"><i className="bi bi-lock"></i></span>
-                        <input type={showConfirmPassword ? 'text' : 'password'} className='form-control' name="confirmPassword" value={formData.confirmPassword} placeholder='konfirmasi password' onChange={handleChange} required />
+                        <input type={showConfirmPassword ? 'text' : 'password'} className={`form-control ${error ? "is-invalid" : ""}`} name="confirmPassword" value={formData.confirmPassword} placeholder='konfirmasi password' onChange={handleChange} required />
                         <button className="btn border border-start-0" type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{!showConfirmPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
+                        <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                            {error}
+                        </div>
                     </div>
 
                     <button type="submit" className="btn btn-danger w-100">Registrasi</button>

@@ -13,16 +13,16 @@ const Profile = () => {
         profile_image: '/profile.png',
     });
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/profile`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await response.json();
-            setUser(data.data);
-        };
+    const fetchUserProfile = async () => {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        setUser(data.data);
+    };
 
+    useEffect(() => {
         fetchUserProfile();
     }, []);
 
@@ -136,6 +136,7 @@ const Profile = () => {
 
                     const data = await response.json();
                     console.log('Profile image updated successfully:', data);
+                    fetchUserProfile();
                     setIsEditing(false);
                     inputFile.value = '';
                 } else {
