@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+.env
+cad_saldo.js
+
 # testing
 /coverage
 
