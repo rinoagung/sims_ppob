@@ -30,7 +30,7 @@ const Saldo = () => {
         <div className='row mb-5'>
             {error && <div className="alert alert-danger alert-dismissible">
                 {error}
-
+                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>}
             <div className="col-5">
                 <img

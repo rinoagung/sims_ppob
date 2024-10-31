@@ -54,9 +54,9 @@ const LoginForm = () => {
                 <form className="col-12 p-5 col-lg-6 p-0 d-flex justify-content-center flex-column align-items-center" style={{ height: "100vh" }} onSubmit={handleSubmit}>
                     {error && <div className="alert alert-danger alert-dismissible w-100" role="alert">
                         {error}
-
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>}
-                    <div>
+                    <div className='text-center'>
                         <img src="/logos/logo.png" alt="Logo" width="24" height="24" className="d-inline-block align-text-top me-2" />
                         <h6 className='d-inline-block m-0'>SIMS PPOB - RINO AGUNG PRIYO UTOMO</h6>
                     </div>

@@ -68,13 +68,13 @@ const RegistrationForm = () => {
                 <form className="col-12 p-5 col-lg-6 p-0 d-flex justify-content-center flex-column align-items-center" style={{ height: "100vh" }} onSubmit={handleSubmit}>
                     {successMessage && <div className="alert alert-success alert-dismissible w-100" role="alert">
                         {successMessage}
-
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>}
                     {error && <div className="alert alert-danger alert-dismissible w-100" role="alert">
                         {error}
-
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>}
-                    <div>
+                    <div className='text-center'>
                         <img src="/logos/logo.png" alt="Logo" width="24" height="24" className="d-inline-block align-text-top me-2" />
                         <h6 className='d-inline-block m-0'>SIMS PPOB - RINO AGUNG PRIYO UTOMO</h6>
                     </div>
@@ -107,7 +107,7 @@ const RegistrationForm = () => {
                         <span className="input-group-text" id="basic-addon1"><i className="bi bi-lock"></i></span>
                         <input type={showConfirmPassword ? 'text' : 'password'} className={`form-control ${error ? "is-invalid" : ""}`} name="confirmPassword" value={formData.confirmPassword} placeholder='konfirmasi password' onChange={handleChange} required />
                         <button className="btn border border-start-0" type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{!showConfirmPassword ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}</button>
-                        <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                        <div id="validationServerUsernameFeedback" className="invalid-feedback">
                             {error}
                         </div>
                     </div>
