@@ -56,7 +56,14 @@ const Profile = () => {
             }
 
             const data = await response.json();
-            console.log('Profile updated successfully:', data);
+            Swal.fire({
+                icon: "success",
+                showConfirmButton: false,
+                showCloseButton: true,
+                html: `<div class='text-center'>
+                <p>Profile berhasil di update</p>
+            </div>`
+            });
             setIsEditing(false);
         } catch (error) {
             console.error('Error updating profile:', error);
@@ -97,12 +104,26 @@ const Profile = () => {
 
         if (file) {
             if (!validTypes.includes(file.type)) {
-                alert('Please select a valid image (jpg, png).');
+                Swal.fire({
+                    icon: "error",
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    html: `<div class='text-center'>
+                    <p>Please select a valid image (jpg, png).</p>
+                </div>`
+                });
                 inputFile.value = '';
                 return;
             }
             if (file.size > maxSize) {
-                alert('Image size must be less than 100KB.');
+                Swal.fire({
+                    icon: "error",
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    html: `<div class='text-center'>
+                    <p>Ukuran foto profile harus di bawah 100 KB</p>
+                </div>`
+                });
                 inputFile.value = '';
                 return;
             }
@@ -135,7 +156,14 @@ const Profile = () => {
                     }
 
                     const data = await response.json();
-                    console.log('Profile image updated successfully:', data);
+                    Swal.fire({
+                        icon: "success",
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        html: `<div class='text-center'>
+                        <p>Foto profile berhasil di update</p>
+                    </div>`
+                    });
                     fetchUserProfile();
                     setIsEditing(false);
                     inputFile.value = '';
@@ -146,7 +174,6 @@ const Profile = () => {
             });
         }
     };
-
 
     const profile_image_url = isValidImageUrl(user.profile_image) ? user.profile_image : '/logos/profile.png';
 
