@@ -33,6 +33,18 @@ const TopUp = () => {
 
     const handleTopUp = async () => {
 
+        if (parseInt(amount) < 10000) {
+            Swal.fire({
+                icon: "error",
+                showConfirmButton: false,
+                html: `<div class='text-center'>
+                <p>Minimal top up sebesar</p>
+                <h5 class='fw-bold'>Rp10.000</h5>
+            </div>`
+            });
+            return;
+        }
+
         const token = localStorage.getItem('token');
 
         try {
