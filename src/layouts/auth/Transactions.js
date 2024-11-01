@@ -2,8 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import Saldo from '../components/Saldo';
+import { useSelector } from 'react-redux';
+
 
 const Transactions = () => {
+
+    const token = useSelector((state) => state.auth.token);
     const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState(null);
     const [limit, setLimit] = useState(5);
@@ -12,7 +16,6 @@ const Transactions = () => {
     const fetchTransactions = async (limit = 5) => {
         try {
             setLimit(limit)
-            const token = localStorage.getItem('token');
             const response = await fetch(`${process.env.REACT_APP_API_URL}/transaction/history?offset=0&limit=${limit}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });

@@ -2,8 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Saldo from '../components/Saldo';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
+
+    const token = useSelector((state) => state.auth.token);
+
     const navigate = useNavigate();
     const [services, setServices] = useState([]);
     const [banner, setBanner] = useState(null);
@@ -16,7 +20,6 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = localStorage.getItem('token');
                 const headers = { Authorization: `Bearer ${token}` };
 
                 // Fetch services

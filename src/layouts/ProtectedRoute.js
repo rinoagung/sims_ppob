@@ -2,9 +2,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ children }) => {
-    const isAuthenticated = !!localStorage.getItem('token');
+
+    const token = useSelector((state) => state.auth.token);
+    const isAuthenticated = !!token;
 
     return isAuthenticated ? (
         <>
@@ -17,7 +20,9 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const GuestRoute = ({ children }) => {
-    const isAuthenticated = !!localStorage.getItem('token');
+    const token = useSelector((state) => state.auth.token);
+
+    const isAuthenticated = !!token;
 
     return !isAuthenticated ? (
         <>

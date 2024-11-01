@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setError } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { loginSuccess } from '../../redux/slices/authSlice';
 
 
 const LoginForm = () => {
+    const token = useSelector((state) => state.auth.token);
+
     const dispatch = useDispatch();
     const error = useSelector((state) => state.user.error);
     const navigate = useNavigate();
@@ -37,7 +40,8 @@ const LoginForm = () => {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('token', data.data.token);
+                dispatch(loginSuccess(data.data.token));
+                // localStorage.setItem('token', data.data.token);
                 dispatch(setError(''));
                 navigate('/dashboard');
             } else {

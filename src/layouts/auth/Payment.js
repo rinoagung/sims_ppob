@@ -1,13 +1,16 @@
 // src/components/Payment.js
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
 import Saldo from '../components/Saldo';
 import { formatAngka } from '../../utils/formatAngka';
 import { fetchBannerData } from '../../redux/slices/bannerSlice';
 
+
+
 const Payment = () => {
+    const token = useSelector((state) => state.auth.token);
     const location = useLocation();
     const dispatch = useDispatch();
 
@@ -34,7 +37,6 @@ const Payment = () => {
 
 
     const handlePayment = async () => {
-        const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/transaction`, {
                 method: 'POST',

@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import Saldo from '../components/Saldo';
 import Swal from 'sweetalert2';
 import { formatAngka } from '../../utils/formatAngka';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchBannerData } from '../../redux/slices/bannerSlice';
 
 
 const TopUp = () => {
+
+    const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
     const [amount, setAmount] = useState('');
 
@@ -32,8 +34,6 @@ const TopUp = () => {
     }
 
     const handleTopUp = async () => {
-
-        const token = localStorage.getItem('token');
 
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/topup`, {

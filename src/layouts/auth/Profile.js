@@ -2,8 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../redux/slices/authSlice';
+
 
 const Profile = () => {
+
+    const token = useSelector((state) => state.auth.token);
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
     const [user, setUser] = useState({
@@ -12,9 +17,9 @@ const Profile = () => {
         last_name: '',
         profile_image: '/profile.png',
     });
+    const dispatch = useDispatch()
 
     const fetchUserProfile = async () => {
-        const token = localStorage.getItem('token');
         const response = await fetch(`${process.env.REACT_APP_API_URL}/profile`, {
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -36,7 +41,6 @@ const Profile = () => {
     };
 
     const handleSave = async () => {
-        const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/profile/update`, {
                 method: 'PUT',
@@ -96,7 +100,6 @@ const Profile = () => {
 
 
     const handleFileChange = async (e) => {
-        const token = localStorage.getItem('token');
         const file = e.target.files[0];
         const validTypes = ['image/jpeg', 'image/png'];
         const maxSize = 100 * 1024; // 100 KB
@@ -260,7 +263,7 @@ const Profile = () => {
                         <>
                             <button type="button" className="btn btn-outline-danger mb-3" onClick={handleEditToggle}>Edit Profile</button>
                             <button type="button" className="btn btn-danger" onClick={() => {
-                                localStorage.removeItem('token');
+                                dispatch(logout());
                                 navigate('/');
                             }}>Logout</button>
                         </>

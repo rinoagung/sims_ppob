@@ -1,11 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+
 // Definisikan thunk
 const fetchBannerData = createAsyncThunk(
     'user/fetchBannerData',
-    async () => {
+    async (_, { getState }) => {
+        const state = getState();
+        const token = state.auth.token; // Ambil token dari state
+
         try {
-            const token = localStorage.getItem('token');
+
+            // const token = localStorage.getItem('token');
             const headers = { Authorization: `Bearer ${token}` };
 
             const profileResponse = await fetch(`${process.env.REACT_APP_API_URL}/profile`, { headers });
